@@ -24,4 +24,8 @@ glob.sync('./tasks/**/*.js').map(file => require(file)({
 
 gulp.task('default', () => {
   gulp.start('serve');
-}).task('serve', ['clean', 'css', 'js', 'watch', 'browser']).task('build', []);
+}).task('serve', ['clean'], ()  => {
+  gulp.start('html', 'css', 'js', 'watch', 'browser');
+}).task('build', ['clean'], () => {
+  gulp.start('html', 'css', 'js');
+});

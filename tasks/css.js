@@ -22,7 +22,7 @@ module.exports = params => {
       outputStyle: 'expanded'
     }))
     .pipe(postcss([
-       autoprefixer({ browsers: browserList })
+       autoprefixer({ browsers: browserList, grid: true })
     ]))
     .pipe(gulp.dest(target + '/styles'))
     .pipe(browserSync.stream({ match: '**/*.css' }));

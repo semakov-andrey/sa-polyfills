@@ -1,6 +1,6 @@
 'use strict';
 
-var browserify                = require('browserify'),
+var browserify              = require('browserify'),
   babelify                  = require('babelify'),
   vsource                   = require('vinyl-source-stream'),
   buffer                    = require('vinyl-buffer'),
