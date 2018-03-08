@@ -53,6 +53,8 @@ export default class fastAutoplacement {
       flowItems = [],
       maxRows = direct === 'column' && params.maxRows ? params.maxRows : 50,
       maxColumns = direct === 'row' && params.maxColumns ? params.maxColumns : 50,
+      calcMaxRows = 0,
+      calcMaxColumns = 0,
       startPosition = params.position ? params.position : 999;
     if(!items.length) {
       return;
@@ -61,10 +63,8 @@ export default class fastAutoplacement {
 
     window.addEventListener('DOMContentLoaded', () => {      
       let gridStyle = window.getComputedStyle(grid),
-        gridRows = this.getGridCells(gridStyle, 'Rows'),
-        gridColumns = this.getGridCells(gridStyle, 'Columns'),
-        gridRowsLength = gridRows.length,
-        gridColumnsLength = gridColumns.length;
+        gridCells = this.getGridCells(gridStyle, cross + 's'),
+        gridCellsLength = gridCells.length;
 
       for(let i = 0; i < items.length; i++) {
         let element = items[i],
@@ -86,9 +86,6 @@ export default class fastAutoplacement {
           rowSpan = itemStyle[directProp + 'Span'] ? Number(itemStyle[directProp + 'Span']) : 1,
           column = Number(itemStyle[crossProp]),
           columnSpan = itemStyle[crossProp + 'Span'] ? Number(itemStyle[crossProp + 'Span']) : 1;
-        if(itemStyle.order) {
-          element.style.zIndex = itemStyle.order;
-        }
         this.save(row, rowSpan, column, columnSpan);
       }
       
@@ -104,76 +101,77 @@ export default class fastAutoplacement {
           rowSpan = itemStyle[directProp + 'Span'] ? Number(itemStyle[directProp + 'Span']) : 1,
           column = false,
           columnSpan = itemStyle[crossProp + 'Span'] ? Number(itemStyle[crossProp + 'Span']) : 1;
-        if(itemStyle.order) {
-          element.style.zIndex = itemStyle.order;
-        }        
         for(let j = 1; j <= maxColumns - columnSpan + 1; j++) {
           column = this.searchLocation(row, rowSpan, j, columnSpan);
           if(column) {
-            column = i;
+            column = j;
             break;
           }
         }
         if(column) {
-          element.style['-ms-grid-column'] = column;
+          element.style['-ms-grid-' + cross] = column;
           this.save(row, rowSpan, column, columnSpan);
-        } else element.style.display = 'none';
+        } else {
+          element.style.display = 'none';
+        }
       }
-      
-      maxColumns = 0;
-      for(var i = 0; i < gridGlobalArray.length; i++) {
-        if(gridGlobalArray[i] && gridGlobalArray[i].length - 1 > maxColumns) maxColumns = gridGlobalArray[i].length - 1;
+
+      let maxCells = 0;
+      for(let i = 0; i < this.gridData.length; i++) {
+        if(this.gridData[i] && this.gridData[i].length - 1 > maxCells) {
+          maxCells = this.gridData[i].length - 1;
+        }
       }
-      $.each(autoFlowArray, function(index, element) {
-        var itemStyle = window.getComputedStyle(element);
-        var column = itemStyle.msGridColumn && Number(itemStyle.msGridColumn) !== 999 ? Number(itemStyle.msGridColumn) : 1;
-        var columnSpan = itemStyle.msGridColumnSpan ? Number(itemStyle.msGridColumnSpan) : 1;
-        if(column + columnSpan - 1 > maxColumns) maxColumns = column + columnSpan - 1;
-      });
-      if(maxColumns > gridColumnsLength) {
-        for(var i = 0; i < maxColumns - gridColumnsLength; i++) gridColumns.push('1fr');
-        grid[0].style['-ms-grid-columns'] = gridColumns.join(' ');
+      for(let i = 0; i < flowItems.length; i++) {
+        let element = flowItems[i],
+          itemStyle = window.getComputedStyle(element),
+          column = itemStyle[crossProp] && Number(itemStyle[crossProp]) !== startPosition ? Number(itemStyle[crossProp]) : 1,
+          columnSpan = itemStyle[crossProp + 'Span'] ? Number(itemStyle[crossProp + 'Span']) : 1;
+          if(column + columnSpan - 1 > maxCells) {
+            maxCells = column + columnSpan - 1;
+          }
       }
-      
-      autoFlowArray.sort(function(a, b) {
-        var aStyle = window.getComputedStyle(a);
-        var bStyle = window.getComputedStyle(b);
+      if(maxCells > gridCellsLength) {
+        for(var i = 0; i < maxCells - gridCellsLength; i++) gridCells.push('1fr');
+        grid.style['-ms-grid-' + cross + 's'] = gridCells.join(' ');
+      }
+
+      flowItems.sort((a, b) => {
+        let aStyle = window.getComputedStyle(a),
+          bStyle = window.getComputedStyle(b);
         return aStyle.order - bStyle.order;
       });
-      $.each(autoFlowArray, function(index, element) {
-        var itemStyle = window.getComputedStyle(element);
-        var row = false;
-        var rowSpan = itemStyle.msGridRowSpan ? Number(itemStyle.msGridRowSpan) : 1;
-        var column = itemStyle.msGridColumn && Number(itemStyle.msGridColumn) !== 999 ? Number(itemStyle.msGridColumn) : false;
-        var columnSpan = itemStyle.msGridColumnSpan ? Number(itemStyle.msGridColumnSpan) : 1;
-      
-        var place = false;
-        for(var i = 1; i <= maxRows; i++) {
-        for(var j = 1; j <= maxColumns - columnSpan + 1; j++) {
-          place = findPlace(i, rowSpan, j, columnSpan);
-          if(place) {
-          row = i;
-          column = j;
-          break;
+      for(let i = 0; i < flowItems.length; i++) {
+        let element = flowItems[i],
+          itemStyle = window.getComputedStyle(element),
+          row = direct !== 'row' ? (itemStyle[crossProp] && Number(itemStyle[crossProp]) !== startPosition ? Number(itemStyle[crossProp]) : false) : false,
+          rowSpan = itemStyle[directProp + 'Span'] ? Number(itemStyle[directProp + 'Span']) : 1,
+          column = direct === 'row' ? (itemStyle[crossProp] && Number(itemStyle[crossProp]) !== startPosition ? Number(itemStyle[crossProp]) : false) : false,
+          columnSpan = itemStyle[crossProp + 'Span'] ? Number(itemStyle[crossProp + 'Span']) : 1,
+          place = false;      
+        for(let j = 1; j <= maxRows; j++) {
+          for(let k = 1; k <= maxCells - columnSpan + 1; k++) {
+            place = this.searchLocation(j, rowSpan, k, columnSpan);
+            if(place) {
+              row = j;
+              column = k;
+              break;
+            }
           }
-        }
-        if(place) break;
+          if(place) {
+            break;
+          }
         }
         if(place) {
-        element.style['-ms-grid-row'] = row;
-        element.style['-ms-grid-column'] = column;
-      
-        for(var i = 0; i < rowSpan; i++) {
-          if(!gridGlobalArray[row + i]) gridGlobalArray[row + i] = [];
-          for(var j = 0; j < columnSpan; j++) {
-          gridGlobalArray[row + i][column + j] = true;
-          }
+          element.style['-ms-grid-row'] = row;
+          element.style['-ms-grid-column'] = column;
+          this.save(row, rowSpan, column, columnSpan);
+        } else {
+          element.style.display = 'none';
         }
-        } else $(element).hide();
-      });
+      }
       
       console.log(JSON.stringify(gridGlobalArray));
-      });
-      
+    });
   }
 }

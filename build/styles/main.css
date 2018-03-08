@@ -66,6 +66,7 @@ body {
   -ms-grid-row: 2;
   -ms-grid-row-span: 3;
   grid-row: 2 / span 3;
+  grid-column: span 3;
   -ms-grid-column-span: 3;
   -webkit-box-ordinal-group: 2;
       -ms-flex-order: 1;
@@ -76,7 +77,6 @@ body {
   -webkit-box-ordinal-group: 5;
       -ms-flex-order: 4;
           order: 4;
-  -ms-grid-column-span: 7;
 }
 
 .item:nth-child(7) {
