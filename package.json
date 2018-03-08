@@ -1,0 +1,16 @@
+{
+  "name": "fast-autoplacement",
+  "version": "0.0.1",
+  "description": "AutoPlacement Grid Cells For IE 10, 11.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/semakov_andrey/fast-autoplacement.git"
+  },
+  "author": "Semakov Andrey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/semakov_andrey/fast-autoplacement/issues"
+  },
+  "homepage": "https://gitlab.com/semakov_andrey/fast-autoplacement#README"
+}
