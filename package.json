@@ -12,5 +12,29 @@
   "bugs": {
     "url": "https://gitlab.com/semakov_andrey/fast-autoplacement/issues"
   },
-  "homepage": "https://gitlab.com/semakov_andrey/fast-autoplacement#README"
+  "homepage": "https://gitlab.com/semakov_andrey/fast-autoplacement#README",
+  "devDependencies": {
+    "babelify": "^8.0.0",
+    "browser-sync": "^2.23.6",
+    "browserify": "^16.1.1",
+    "glob": "^7.1.2",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-util": "^3.0.8",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.11.0"
+  },
+  "config": {
+    "directories": {
+      "source": "src",
+      "production": "build"
+    },
+    "browsers": [
+      "> 5%",
+      "last 2 versions"
+    ]
+  }
 }
