@@ -14,6 +14,7 @@
   },
   "homepage": "https://gitlab.com/semakov_andrey/fast-autoplacement#README",
   "devDependencies": {
+    "autoprefixer": "^8.1.0",
     "babelify": "^8.0.0",
     "browser-sync": "^2.23.6",
     "browserify": "^16.1.1",
@@ -22,6 +23,8 @@
     "gulp-clean": "^0.4.0",
     "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.2.0",
+    "gulp-postcss": "^7.0.1",
+    "gulp-sass": "^3.1.0",
     "gulp-util": "^3.0.8",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
