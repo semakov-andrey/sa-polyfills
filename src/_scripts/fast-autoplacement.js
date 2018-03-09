@@ -1,15 +1,15 @@
 'user strict';
 
-import $ from 'jquery';
-
 export default class fastAutoplacement {
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   } 
 
   getGridCells(gridStyle, direction) {
-    if(gridStyle['msGrid' + direction]) {
-      let search = /(.*?) \( 0px \)/g.exec(gridStyle['msGrid' + direction]);
+    console.log(direction);
+    if(gridStyle[direction]) {
+      console.log(gridStyle[direction]);
+      let search = /(.*?) \( 0px \)/g.exec(gridStyle[direction]);
       return search && search[1] ? search[1].split(' ') : [];
     } else {
       return [];
@@ -63,8 +63,9 @@ export default class fastAutoplacement {
 
     window.addEventListener('DOMContentLoaded', () => {      
       let gridStyle = window.getComputedStyle(grid),
-        gridCells = this.getGridCells(gridStyle, cross + 's'),
+        gridCells = this.getGridCells(gridStyle, crossProp + 's'),
         gridCellsLength = gridCells.length;
+        console.log(gridCells);
 
       for(let i = 0; i < items.length; i++) {
         let element = items[i],
@@ -134,6 +135,8 @@ export default class fastAutoplacement {
       if(maxCells > gridCellsLength) {
         for(var i = 0; i < maxCells - gridCellsLength; i++) gridCells.push('1fr');
         grid.style['-ms-grid-' + cross + 's'] = gridCells.join(' ');
+      } else {
+        maxCells = gridCellsLength;
       }
 
       flowItems.sort((a, b) => {
@@ -144,34 +147,44 @@ export default class fastAutoplacement {
       for(let i = 0; i < flowItems.length; i++) {
         let element = flowItems[i],
           itemStyle = window.getComputedStyle(element),
-          row = direct !== 'row' ? (itemStyle[crossProp] && Number(itemStyle[crossProp]) !== startPosition ? Number(itemStyle[crossProp]) : false) : false,
+          row = false,
           rowSpan = itemStyle[directProp + 'Span'] ? Number(itemStyle[directProp + 'Span']) : 1,
-          column = direct === 'row' ? (itemStyle[crossProp] && Number(itemStyle[crossProp]) !== startPosition ? Number(itemStyle[crossProp]) : false) : false,
+          column = itemStyle[crossProp] && Number(itemStyle[crossProp]) !== startPosition ? Number(itemStyle[crossProp]) : false,
           columnSpan = itemStyle[crossProp + 'Span'] ? Number(itemStyle[crossProp + 'Span']) : 1,
-          place = false;      
-        for(let j = 1; j <= maxRows; j++) {
-          for(let k = 1; k <= maxCells - columnSpan + 1; k++) {
-            place = this.searchLocation(j, rowSpan, k, columnSpan);
+          place = false;
+        if(!column) {
+          for(let j = 1; j <= maxRows; j++) {
+            for(let k = 1; k <= maxCells - columnSpan + 1; k++) {
+              place = this.searchLocation(j, rowSpan, k, columnSpan);
+              if(place) {
+                row = j;
+                column = k;
+                break;
+              }
+            }
             if(place) {
-              row = j;
-              column = k;
               break;
             }
           }
-          if(place) {
-            break;
+        } else {
+          for(let j = 1; j <= maxRows; j++) {
+            place = this.searchLocation(j, rowSpan, column, columnSpan);
+            if(place) {
+              row = j;
+              break;
+            }
           }
         }
         if(place) {
-          element.style['-ms-grid-row'] = row;
-          element.style['-ms-grid-column'] = column;
+          element.style['-ms-grid-' + direct] = row;
+          element.style['-ms-grid-' + cross] = column;
           this.save(row, rowSpan, column, columnSpan);
         } else {
           element.style.display = 'none';
         }
       }
       
-      console.log(JSON.stringify(gridGlobalArray));
+      console.log(JSON.stringify(this.gridData));
     });
   }
 }
