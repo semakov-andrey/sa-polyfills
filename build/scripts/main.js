@@ -6,21 +6,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-  };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var fastAutoplacement = function () {
   _createClass(fastAutoplacement, [{
@@ -31,9 +19,7 @@ var fastAutoplacement = function () {
   }, {
     key: 'getGridCells',
     value: function getGridCells(gridStyle, direction) {
-      console.log(direction);
       if (gridStyle[direction]) {
-        console.log(gridStyle[direction]);
         var search = /(.*?) \( 0px \)/g.exec(gridStyle[direction]);
         return search && search[1] ? search[1].split(' ') : [];
       } else {
@@ -224,6 +210,7 @@ var fastAutoplacement = function () {
 }();
 
 exports.default = fastAutoplacement;
+
 },{}],2:[function(require,module,exports){
 'use strict';
 
@@ -231,9 +218,7 @@ var _fastAutoplacement = require('../_scripts/fast-autoplacement.js');
 
 var _fastAutoplacement2 = _interopRequireDefault(_fastAutoplacement);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var grid = document.getElementById('grid');
 new _fastAutoplacement2.default({
@@ -241,4 +226,5 @@ new _fastAutoplacement2.default({
   direction: 'row',
   maxColumns: 60
 });
+
 },{"../_scripts/fast-autoplacement.js":1}]},{},[2]);

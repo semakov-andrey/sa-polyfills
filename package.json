@@ -43,6 +43,7 @@
     ]
   },
   "dependencies": {
+    "babel-preset-env": "^1.6.1",
     "jquery": "^3.3.1"
   }
 }

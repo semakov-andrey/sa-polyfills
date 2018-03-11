@@ -7,13 +7,12 @@ var browserify              = require('browserify'),
   watchify                  = require('watchify'),
   util                      = require('gulp-util');
 
-  module.exports = params => {
+module.exports = params => {
   var { gulp, source, target, notify, browserSync } = params,
-  bundler = watchify(browserify(source + '/_scripts/main.js', { debug: false })),
+  bundler = watchify(browserify(source + '/_scripts/main.js', { debug: false })).transform(babelify, { presets: ['env'] }),
   rebundle = bundler => {
     let startTime = new Date().getTime();
-    bundler.transform(babelify, { presets: ['es2015'], sourceMaps: false })
-    .bundle()
+    bundler.bundle()
     .on('error', notify.onError({
       sound: false,
       title: 'js',
@@ -33,9 +32,6 @@ var browserify              = require('browserify'),
   gulp.task('js', () => {
     rebundle(bundler);
   }).task('watchify', () => {
-    gulp.watch(source + '/**/*.js', () => {
-      rebundle(bundler);
-    });
     bundler.on('update', () => {
       rebundle(bundler);
     });

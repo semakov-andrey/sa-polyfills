@@ -6,9 +6,7 @@ export default class fastAutoplacement {
   } 
 
   getGridCells(gridStyle, direction) {
-    console.log(direction);
     if(gridStyle[direction]) {
-      console.log(gridStyle[direction]);
       let search = /(.*?) \( 0px \)/g.exec(gridStyle[direction]);
       return search && search[1] ? search[1].split(' ') : [];
     } else {
