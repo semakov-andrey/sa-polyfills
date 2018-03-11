@@ -7,8 +7,12 @@ export default class fastAutoplacement {
 
   getGridCells(gridStyle, direction) {
     if(gridStyle[direction]) {
-      let search = /(.*?) \( 0px \)/g.exec(gridStyle[direction]);
-      return search && search[1] ? search[1].split(' ') : [];
+      if(gridStyle[direction][0] !== '(') {
+        let search = /(.*?) \( 0px \)/g.exec(gridStyle[direction]);
+        return search && search[1] ? search[1].split(' ') : [];
+      } else {
+        return [];
+      }
     } else {
       return [];
     }
@@ -59,11 +63,15 @@ export default class fastAutoplacement {
     }
     this.gridData = [];
 
-    window.addEventListener('DOMContentLoaded', () => {      
-      let gridStyle = window.getComputedStyle(grid),
-        gridCells = this.getGridCells(gridStyle, crossProp + 's'),
-        gridCellsLength = gridCells.length;
-        console.log(gridCells);
+    window.addEventListener('DOMContentLoaded', () => { 
+      let gridCells, gridCellsLength;
+      if(!params[cross + 's']) {  
+        let gridStyle = window.getComputedStyle(grid);
+        gridCells = this.getGridCells(gridStyle, crossProp + 's');
+      } else {
+        gridCells = params[cross + 's'].split(' ');
+      }
+      gridCellsLength = gridCells.length;
 
       for(let i = 0; i < items.length; i++) {
         let element = items[i],
@@ -132,10 +140,10 @@ export default class fastAutoplacement {
       }
       if(maxCells > gridCellsLength) {
         for(var i = 0; i < maxCells - gridCellsLength; i++) gridCells.push('1fr');
-        grid.style['-ms-grid-' + cross + 's'] = gridCells.join(' ');
       } else {
         maxCells = gridCellsLength;
       }
+      grid.style['-ms-grid-' + cross + 's'] = gridCells.join(' ');
 
       flowItems.sort((a, b) => {
         let aStyle = window.getComputedStyle(a),
@@ -182,7 +190,7 @@ export default class fastAutoplacement {
         }
       }
       
-      console.log(JSON.stringify(this.gridData));
+      //console.log(JSON.stringify(this.gridData));
     });
   }
 }

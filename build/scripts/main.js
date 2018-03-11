@@ -20,8 +20,12 @@ var fastAutoplacement = function () {
     key: 'getGridCells',
     value: function getGridCells(gridStyle, direction) {
       if (gridStyle[direction]) {
-        var search = /(.*?) \( 0px \)/g.exec(gridStyle[direction]);
-        return search && search[1] ? search[1].split(' ') : [];
+        if (gridStyle[direction][0] !== '(') {
+          var search = /(.*?) \( 0px \)/g.exec(gridStyle[direction]);
+          return search && search[1] ? search[1].split(' ') : [];
+        } else {
+          return [];
+        }
       } else {
         return [];
       }
@@ -80,10 +84,15 @@ var fastAutoplacement = function () {
     this.gridData = [];
 
     window.addEventListener('DOMContentLoaded', function () {
-      var gridStyle = window.getComputedStyle(grid),
-          gridCells = _this.getGridCells(gridStyle, crossProp + 's'),
-          gridCellsLength = gridCells.length;
-      console.log(gridCells);
+      var gridCells = void 0,
+          gridCellsLength = void 0;
+      if (!params[cross + 's']) {
+        var gridStyle = window.getComputedStyle(grid);
+        gridCells = _this.getGridCells(gridStyle, crossProp + 's');
+      } else {
+        gridCells = params[cross + 's'].split(' ');
+      }
+      gridCellsLength = gridCells.length;
 
       for (var _i = 0; _i < items.length; _i++) {
         var element = items[_i],
@@ -152,10 +161,11 @@ var fastAutoplacement = function () {
       if (maxCells > gridCellsLength) {
         for (var i = 0; i < maxCells - gridCellsLength; i++) {
           gridCells.push('1fr');
-        }grid.style['-ms-grid-' + cross + 's'] = gridCells.join(' ');
+        }
       } else {
         maxCells = gridCellsLength;
       }
+      grid.style['-ms-grid-' + cross + 's'] = gridCells.join(' ');
 
       flowItems.sort(function (a, b) {
         var aStyle = window.getComputedStyle(a),
@@ -202,7 +212,7 @@ var fastAutoplacement = function () {
         }
       }
 
-      console.log(JSON.stringify(_this.gridData));
+      //console.log(JSON.stringify(this.gridData));
     });
   }
 
@@ -220,11 +230,13 @@ var _fastAutoplacement2 = _interopRequireDefault(_fastAutoplacement);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var grid = document.getElementById('grid');
-new _fastAutoplacement2.default({
-  grid: grid,
-  direction: 'row',
-  maxColumns: 60
-});
+if (/MSIE 10/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)) {
+  var grid = document.getElementById('grid');
+  new _fastAutoplacement2.default({
+    grid: grid,
+    direction: 'row',
+    columns: '1fr 1fr 1fr 1fr'
+  });
+}
 
 },{"../_scripts/fast-autoplacement.js":1}]},{},[2]);

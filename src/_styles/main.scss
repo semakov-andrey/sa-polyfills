@@ -1,314 +1,43 @@
 body {
-    margin: 20px;
-  }
+  margin: 20px;
+}
 
+.grid {
+  border: 2px solid black;
+  margin: auto;
+  display: grid;
+  display: -ms-grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  //-ms-grid-columns: 1fr 1fr 1fr;
+  grid-template-rows: 50px 50px 50px 50px 50px 50px;
+  grid-gap: 10px;
+  padding: 10px;
+  grid-auto-flow: row dense;
+  height: 800px;
+}
+
+.item {
+  border: 2px solid black;
+  background: rgba(255, 0, 0, .6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
   .grid {
-    border: 2px solid black;
-    margin: auto;
-    display: grid;
-    display: -ms-grid;
-    //grid-template-columns: 100px 100px 100px 100px;
-    //grid-template-rows: repeat(4, 25%);
-    grid-gap: 10px;
-    padding: 10px;
-    grid-auto-flow: column dense;
+    padding: 5px;
   }
 
   .item {
-    min-height: 86px;
-    border: 2px solid black;
-    background: rgba(255, 0, 0, .6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 30px;
+    margin: 5px;
+    -ms-grid-row: 999;
+    -ms-grid-column: 999;
   }
+} 
 
-  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
-    .grid {
-      padding: 5px;
-    }
-
-    .item {
-      margin: 5px;
-      -ms-grid-row: 999;
-      -ms-grid-column: 999;
-    }
-  } 
-
-  .item:nth-child(1) {
-  
-  
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(2) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(3) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(4) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(5) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(6) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(7) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(8) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(9) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(10) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(11) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(12) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(13) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(14) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(15) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(16) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  /* second row items span 2 columns and one gutter */
-  .item:nth-child(17) {
-    
-    
-    -ms-grid-column-span: 2;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(18) {
-    
-    
-    -ms-grid-column-span: 2;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(19) {
-    
-    
-    -ms-grid-column-span: 2;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(20) {
-    
-    
-    -ms-grid-column-span: 2;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(21) {
-    
-    
-    -ms-grid-column-span: 2;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(22) {
-    
-    
-    -ms-grid-column-span: 2;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(23) {
-    
-    
-    -ms-grid-column-span: 2;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(24) {
-    
-    
-    -ms-grid-column-span: 2;
-    -ms-grid-row-span: 1;
-  }
-  /* third row we have 4 items spanning 3 cols and 1 spanning 4 */
-  .item:nth-child(25) {
-    
-    
-    -ms-grid-column-span: 3;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(26) {
-    
-    
-    -ms-grid-column-span: 3;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(27) {
-    
-    
-    -ms-grid-column-span: 3;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(28) {
-    
-    
-    -ms-grid-column-span: 3;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(29) {
-    
-    
-    -ms-grid-column-span: 4;
-    -ms-grid-row-span: 1;
-  }
-  /* fourth row 4 items spanning 4 columns each */
-  .item:nth-child(30) {
-    
-    
-    -ms-grid-column-span: 4;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(31) {
-    
-    
-    -ms-grid-column-span: 4;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(32) {
-    
-    
-    -ms-grid-column-span: 4;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(33) {
-    
-    
-    -ms-grid-column-span: 4;
-    -ms-grid-row-span: 1;
-  }
-  /* now let's get a little crazy ... */
-  .item:nth-child(34) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(35) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(36) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(37) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(38) {
-    
-    
-    -ms-grid-column-span: 11;
-    -ms-grid-row-span: 7;
-  }
-  .item:nth-child(39) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 3;
-  }
-  .item:nth-child(40) {
-    
-    
-    -ms-grid-column-span: 3;
-    -ms-grid-row-span: 3;
-  }
-  .item:nth-child(41) {
-    
-    
-    -ms-grid-column-span: 7;
-    -ms-grid-row-span: 7;
-  }
-  .item:nth-child(42) {
-    
-    
-    -ms-grid-column-span: 5;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(43) {
-    
-    
-    -ms-grid-column-span: 5;
-    -ms-grid-row-span: 5;
-  }
-  .item:nth-child(44) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  .item:nth-child(45) {
-    
-    
-    -ms-grid-column-span: 1;
-    -ms-grid-row-span: 1;
-  }
-  
+.item:nth-child(5) {
+  grid-row: 8;
+}
