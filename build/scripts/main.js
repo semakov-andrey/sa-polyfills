@@ -17,20 +17,6 @@ var fastAutoplacement = function () {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
   }, {
-    key: 'getGridCells',
-    value: function getGridCells(gridStyle, direction) {
-      if (gridStyle[direction]) {
-        if (gridStyle[direction][0] !== '(') {
-          var search = /(.*?) \( 0px \)/g.exec(gridStyle[direction]);
-          return search && search[1] ? search[1].split(' ') : [];
-        } else {
-          return [];
-        }
-      } else {
-        return [];
-      }
-    }
-  }, {
     key: 'save',
     value: function save(row, rowSpan, column, columnSpan) {
       for (var i = 0; i < rowSpan; i++) {
@@ -70,6 +56,7 @@ var fastAutoplacement = function () {
         cross = direct !== 'row' ? 'row' : 'column',
         directProp = 'msGrid' + this.capitalizeFirstLetter(direct),
         crossProp = 'msGrid' + this.capitalizeFirstLetter(cross),
+        directSize = direct === 'column' ? 'width' : 'height',
         fixedItems = [],
         floatItems = [],
         flowItems = [],
@@ -84,15 +71,8 @@ var fastAutoplacement = function () {
     this.gridData = [];
 
     window.addEventListener('DOMContentLoaded', function () {
-      var gridCells = void 0,
-          gridCellsLength = void 0;
-      if (!params[cross + 's']) {
-        var gridStyle = window.getComputedStyle(grid);
-        gridCells = _this.getGridCells(gridStyle, crossProp + 's');
-      } else {
-        gridCells = params[cross + 's'].split(' ');
-      }
-      gridCellsLength = gridCells.length;
+      var gridCells = params[cross + 's'] ? params[cross + 's'].split(' ') : [],
+          gridCellsLength = gridCells.length;
 
       for (var _i = 0; _i < items.length; _i++) {
         var element = items[_i],
@@ -212,6 +192,18 @@ var fastAutoplacement = function () {
         }
       }
 
+      if (params[directSize]) {
+        var _gridCells = params[direct + 's'] ? params[direct + 's'].split(' ') : [],
+            _gridCellsLength = _gridCells.length;
+        for (var _i7 = _gridCellsLength; _i7 < _this.gridData.length - 1; _i7++) {
+          _gridCells.push('1fr');
+        }
+        grid.style['-ms-grid-' + direct + 's'] = _gridCells.join(' ');
+      } else {
+        if (params[direct + 's']) {
+          grid.style['-ms-grid-' + direct + 's'] = params[direct + 's'];
+        }
+      }
       //console.log(JSON.stringify(this.gridData));
     });
   }
@@ -234,8 +226,11 @@ if (/MSIE 10/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)
   var grid = document.getElementById('grid');
   new _fastAutoplacement2.default({
     grid: grid,
-    direction: 'row',
-    columns: '1fr 1fr 1fr 1fr'
+    direction: 'column',
+    columns: '210px 210px 210px',
+    rows: '150px 150px',
+    height: true,
+    width: true
   });
 }
 

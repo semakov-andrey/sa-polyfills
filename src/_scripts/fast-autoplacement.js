@@ -5,19 +5,6 @@ export default class fastAutoplacement {
     return string.charAt(0).toUpperCase() + string.slice(1);
   } 
 
-  getGridCells(gridStyle, direction) {
-    if(gridStyle[direction]) {
-      if(gridStyle[direction][0] !== '(') {
-        let search = /(.*?) \( 0px \)/g.exec(gridStyle[direction]);
-        return search && search[1] ? search[1].split(' ') : [];
-      } else {
-        return [];
-      }
-    } else {
-      return [];
-    }
-  }
-
   save(row, rowSpan, column, columnSpan) {
     for(let i = 0; i < rowSpan; i++) {
       if(!this.gridData[row + i]) {
@@ -50,6 +37,7 @@ export default class fastAutoplacement {
       cross = direct !== 'row' ? 'row' : 'column',
       directProp = 'msGrid' + this.capitalizeFirstLetter(direct),
       crossProp = 'msGrid' + this.capitalizeFirstLetter(cross),
+      directSize = direct === 'column' ? 'width' : 'height',
       fixedItems = [],
       floatItems = [],
       flowItems = [],
@@ -64,14 +52,8 @@ export default class fastAutoplacement {
     this.gridData = [];
 
     window.addEventListener('DOMContentLoaded', () => { 
-      let gridCells, gridCellsLength;
-      if(!params[cross + 's']) {  
-        let gridStyle = window.getComputedStyle(grid);
-        gridCells = this.getGridCells(gridStyle, crossProp + 's');
-      } else {
-        gridCells = params[cross + 's'].split(' ');
-      }
-      gridCellsLength = gridCells.length;
+      let gridCells = params[cross + 's'] ? params[cross + 's'].split(' ') : [],
+        gridCellsLength = gridCells.length;
 
       for(let i = 0; i < items.length; i++) {
         let element = items[i],
@@ -189,7 +171,19 @@ export default class fastAutoplacement {
           element.style.display = 'none';
         }
       }
-      
+
+      if(params[directSize]) {
+        let gridCells = params[direct + 's'] ? params[direct + 's'].split(' ') : [],
+          gridCellsLength = gridCells.length;
+        for(let i = gridCellsLength; i < this.gridData.length - 1; i++) {
+          gridCells.push('1fr');
+        }
+        grid.style['-ms-grid-' + direct + 's'] = gridCells.join(' ');
+      } else {
+        if(params[direct + 's']) {
+          grid.style['-ms-grid-' + direct + 's'] = params[direct + 's'];
+        }
+      }
       //console.log(JSON.stringify(this.gridData));
     });
   }

@@ -1,6 +1,6 @@
 {
   "name": "fast-autoplacement",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "AutoPlacement Grid Cells For IE 10, 11.",
   "main": "index.js",
   "repository": {

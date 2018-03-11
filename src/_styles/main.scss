@@ -7,12 +7,11 @@ body {
   margin: auto;
   display: grid;
   display: -ms-grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  //-ms-grid-columns: 1fr 1fr 1fr;
-  grid-template-rows: 50px 50px 50px 50px 50px 50px;
+  grid-template-columns: 200px 200px 200px;
+  grid-template-rows: 150px 150px;
   grid-gap: 10px;
   padding: 10px;
-  grid-auto-flow: row dense;
+  grid-auto-flow: column dense;
   height: 800px;
 }
 
