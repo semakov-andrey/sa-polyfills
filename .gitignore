@@ -1,5 +1,12 @@
 node_modules
 .vscode
 *.log
+build
 tmp
 Thumbs.db
+.idea
+.grunt
+.DS_Store
+bash.exe.stackdump
+.editorconfig
+.yo-rc.json

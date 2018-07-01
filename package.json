@@ -3,16 +3,11 @@
   "version": "0.0.4",
   "description": "AutoPlacement Grid Cells For IE 10, 11.",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/semakov_andrey/fast-autoplacement.git"
-  },
   "author": "Semakov Andrey",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://gitlab.com/semakov_andrey/fast-autoplacement/issues"
+  "dependencies": {
+    "babel-preset-env": "^1.6.1",
+    "jquery": "^3.3.1"
   },
-  "homepage": "https://gitlab.com/semakov_andrey/fast-autoplacement#README",
   "devDependencies": {
     "autoprefixer": "^8.1.0",
     "babel-core": "^6.26.0",
@@ -32,6 +27,10 @@
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.11.0"
   },
+  "scripts": {
+    "start": "gulp serve",
+    "build": "gulp build --production"
+  },
   "config": {
     "directories": {
       "source": "src",
@@ -41,9 +40,5 @@
       "> 1%",
       "last 2 versions"
     ]
-  },
-  "dependencies": {
-    "babel-preset-env": "^1.6.1",
-    "jquery": "^3.3.1"
   }
 }
