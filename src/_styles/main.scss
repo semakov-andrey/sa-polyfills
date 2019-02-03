@@ -38,5 +38,30 @@ body {
 } 
 
 .item:nth-child(5) {
-  grid-row: 8;
+  background: lime;
+  -ms-grid-column: 3;
+  -ms-grid-row: 3;
+}
+
+.item:nth-child(10) {
+  background: lime;
+  -ms-grid-column: 4;
+  -ms-grid-row: 4;
+}
+
+.item:nth-child(3) {
+  background: cornflowerblue;
+  -ms-grid-column: 2;
+}
+
+.item:nth-child(7) {
+  background: cornflowerblue;
+  -ms-grid-column: 4;
+  order: 1;
+}
+
+.item:nth-child(12) {
+  background: cornflowerblue;
+  -ms-grid-column: 4;
+  order: 2;
 }

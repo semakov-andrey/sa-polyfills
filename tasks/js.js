@@ -9,7 +9,7 @@ var browserify              = require('browserify'),
 
 module.exports = params => {
   var { gulp, source, target, notify, browserSync } = params,
-  bundler = watchify(browserify(source + '/_scripts/main.js', { debug: false })).transform(babelify, { presets: ['env'] }),
+  bundler = watchify(browserify(source + '/_scripts/main.js', { debug: false })).transform(babelify, { presets: ['env'], plugins: ['transform-object-rest-spread'] }),
   rebundle = bundler => {
     let startTime = new Date().getTime();
     bundler.bundle()
