@@ -8,7 +8,7 @@ body {
   display: grid;
   display: -ms-grid;
   grid-template-columns: 200px 200px 200px;
-  grid-template-rows: 150px 150px;
+  grid-template-rows: 150px 150px 150px;
   grid-gap: 10px;
   padding: 10px;
   grid-auto-flow: column dense;
@@ -61,6 +61,18 @@ body {
 }
 
 .item:nth-child(12) {
+  background: cornflowerblue;
+  -ms-grid-column: 4;
+  order: 2;
+}
+
+.item:nth-child(22) {
+  background: cornflowerblue;
+  -ms-grid-column: 4;
+  order: 2;
+}
+
+.item:nth-child(32) {
   background: cornflowerblue;
   -ms-grid-column: 4;
   order: 2;

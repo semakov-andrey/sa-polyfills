@@ -13,8 +13,6 @@ export default class AutoPlacement {
     }
     this.gridData = [];
     const grid = document.querySelector(selector);
-    console.log(window.getComputedStyle(grid)['msGridColumns']);
-    return;
     const cells = [...grid.children];
     const cross = direct === 'column' ? 'row' : 'column';
     const directProp = `msGrid${this.capitalizeFirstLetter(direct)}`;
@@ -24,6 +22,7 @@ export default class AutoPlacement {
     const fixedCells = [];
     const floatCells = [];
     const flowCells = [];
+    const gridColumns = window.getComputedStyle(grid)[`${crossProp}s`].split('( 0px )');
     let maxColumns = 1;
 
     cells.forEach(element => {
@@ -47,11 +46,10 @@ export default class AutoPlacement {
         columnSpan: cs,
         node: element
       });
-      if(c !== position && c + cs - 1 > maxColumns) {
+      if (c !== position && c + cs - 1 > maxColumns) {
         maxColumns = c + cs - 1;
       }
     });
-    console.log(maxColumns);
 
     fixedCells.forEach(element => {  
       this.save(element);
@@ -59,14 +57,14 @@ export default class AutoPlacement {
 
     floatCells.forEach(element => {
       let column;
-      for(let i = 1; i < position - element.columnSpan + 1; i++) {
+      for (let i = 1; i < position - element.columnSpan + 1; i++) {
         column = this.search({ ...element, column: i });
-        if(column) {
+        if (column) {
           column = i;
           break;
         }
       }
-      if(column) {
+      if (column) {
         element.node.style[`-ms-grid-${cross}`] = column;
         this.save({ ...element, column });
       } else {
@@ -76,23 +74,35 @@ export default class AutoPlacement {
     });
 
     this.gridData.forEach(data => {
-      if(data && data.length - 1 > maxColumns) {
+      if (data && data.length - 1 > maxColumns) {
         maxColumns = data.length - 1;
       }
     });
 
-    console.log(window.getComputedStyle(grid)['msGridColumns']);
+    console.log(maxColumns);
+
+    let style1 = [];
+    if (gridColumns[0]) {
+      style1 = gridColumns[0].trim().split(' ');
+    }
+    let styleLength = style1.length;
+    if (maxColumns > styleLength) {
+      for(let i = 0; i < maxColumns - styleLength; i++) style1.push('1fr');
+      grid.style[`-ms-grid-${cross}s`] = style1.join(' ');
+    } else {
+      maxColumns = styleLength;
+    }
 
 
     
-    let gridCells = params[`${cross}s`] ? params[`${cross}s`].split(' ') : [];
-    let gridCellsLength = gridCells.length;
-    if(maxCells > gridCellsLength) {
-      for(var i = 0; i < maxCells - gridCellsLength; i++) gridCells.push('1fr');
-    } else {
-      maxCells = gridCellsLength;
-    }
-    grid.style[`-ms-grid-${cross}s`] = gridCells.join(' ');
+    // let gridCells = params[`${cross}s`] ? params[`${cross}s`].split(' ') : [];
+    // let gridCellsLength = gridCells.length;
+    // if(maxCells > gridCellsLength) {
+    //   for(var i = 0; i < maxCells - gridCellsLength; i++) gridCells.push('1fr');
+    // } else {
+    //   maxCells = gridCellsLength;
+    // }
+    // grid.style[`-ms-grid-${cross}s`] = gridCells.join(' ');
 
     
     
