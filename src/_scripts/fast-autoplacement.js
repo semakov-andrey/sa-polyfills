@@ -1,6 +1,6 @@
 'user strict';
 
-export default class AutoPlacement {
+export default class AutoPlacement { 
   constructor({
     selector,
     direction: direct = 'row',
@@ -10,19 +10,26 @@ export default class AutoPlacement {
     if (!selector || typeof selector !== 'string') {
       console.error(`Can't find a grid selector`);
       return;
-    }
-    this.gridData = [];
+    }    
     const grid = document.querySelector(selector);
     const cells = [...grid.children];
+    if(!cells.length) {
+      return;
+    }
+    this.gridData = [];
     const cross = direct === 'column' ? 'row' : 'column';
     const directProp = `msGrid${this.capitalizeFirstLetter(direct)}`;
     const crossProp = `msGrid${this.capitalizeFirstLetter(cross)}`; 
     const directSpanProp = `${directProp}Span`;
-    const crossSpanProp = `${crossProp}Span`; 
+    const crossSpanProp = `${crossProp}Span`;
+    const directTemplateProp = `${directProp}s`;
+    const crossTemplateProp = `${crossProp}s`;    
     const fixedCells = [];
     const floatCells = [];
     const flowCells = [];
-    const gridColumns = window.getComputedStyle(grid)[`${crossProp}s`].split('( 0px )');
+    const { [directTemplateProp]: dtp, [crossTemplateProp]: ctp } = window.getComputedStyle(grid);
+    const gridRows = params[directTemplateProp] || dtp.split('( 0px )')[0];
+    const gridColumns = params[crossTemplateProp] || ctp.split('( 0px )')[0];
     let maxColumns = 1;
 
     cells.forEach(element => {
@@ -30,7 +37,8 @@ export default class AutoPlacement {
         [directProp]: d,
         [crossProp]: c,
         [directSpanProp]: ds,
-        [crossSpanProp]: cs
+        [crossSpanProp]: cs,
+        order
       } = window.getComputedStyle(element);
       d = Number(d);
       c = Number(c);
@@ -44,12 +52,16 @@ export default class AutoPlacement {
         column: c,
         rowSpan: ds,
         columnSpan: cs,
+        order,
         node: element
       });
       if (c !== position && c + cs - 1 > maxColumns) {
         maxColumns = c + cs - 1;
       }
     });
+
+    floatCells.sort((a, b) => a.order - b.order);
+    flowCells.sort((a, b) => a.order - b.order);
 
     fixedCells.forEach(element => {  
       this.save(element);
@@ -65,7 +77,7 @@ export default class AutoPlacement {
         }
       }
       if (column) {
-        element.node.style[`-ms-grid-${cross}`] = column;
+        element.node.style[crossProp] = column;
         this.save({ ...element, column });
       } else {
         element.node.style.display = 'none';
@@ -79,111 +91,71 @@ export default class AutoPlacement {
       }
     });
 
-    console.log(maxColumns);
+    maxColumns = this.setColumns(grid, gridColumns, maxColumns, crossTemplateProp);
 
-    let style1 = [];
-    if (gridColumns[0]) {
-      style1 = gridColumns[0].trim().split(' ');
+    flowCells.forEach(element => {
+      let place;
+      let row;
+      let column;
+      if (element.column !== position) {
+        for (let i = 1; i < position - element.rowSpan + 1; i++) {
+          place = this.search({ ...element, row: i });
+          if (place) {
+            row = i;
+            break;
+          }
+        }
+        if (place) {
+          element.node.style[directProp] = row;
+          this.save({ ...element, row });
+        } else {
+          element.node.style.display = 'none';
+          console.error(`Can't find a cell position`);
+        }
+      } else {
+        for(let i = 1; i < position - element.rowSpan + 1; i++) {
+          for(let j = 1; j <= maxColumns - element.columnSpan + 1; j++) {
+            place = this.search({ ...element, row: i, column: j });
+            if(place) {
+              row = i;
+              column = j;
+              break;
+            }
+          }
+          if(place) {
+            break;
+          }
+        } 
+        if (place) {
+          element.node.style[directProp] = row;
+          element.node.style[crossProp] = column;
+          this.save({ ...element, row, column });
+        } else {
+          element.node.style.display = 'none';
+          console.error(`Can't find a cell position`);
+        }
+      }
+    });
+
+    this.setColumns(grid, gridRows, this.gridData.length - 1, directTemplateProp);
+  }
+
+  setColumns(grid, columns, maxColumns, styleName) {
+    let template = [];
+    if (columns) {
+      template.push(...columns.trim().split(' '));
     }
-    let styleLength = style1.length;
-    if (maxColumns > styleLength) {
-      for(let i = 0; i < maxColumns - styleLength; i++) style1.push('1fr');
-      grid.style[`-ms-grid-${cross}s`] = style1.join(' ');
+    let length = template.length;
+    if (maxColumns > length) {
+      let i = maxColumns - length;
+      while(i--) {
+        template.push('1fr');
+      }
+      grid.style[styleName] = template.join(' ');
     } else {
-      maxColumns = styleLength;
+      maxColumns = length;
     }
-
-
-    
-    // let gridCells = params[`${cross}s`] ? params[`${cross}s`].split(' ') : [];
-    // let gridCellsLength = gridCells.length;
-    // if(maxCells > gridCellsLength) {
-    //   for(var i = 0; i < maxCells - gridCellsLength; i++) gridCells.push('1fr');
-    // } else {
-    //   maxCells = gridCellsLength;
-    // }
-    // grid.style[`-ms-grid-${cross}s`] = gridCells.join(' ');
-
-    
-    
-    const directSize = direct === 'column' ? 'width' : 'height';            // ?  
-    let maxRows = direct === 'column' && params.maxRows ? params.maxRows : 50;
-    //let maxColumns = direct === 'row' && params.maxColumns ? params.maxColumns : 50;
-    if(!cells.length) {
-      return;
-    }    
-
-    
-
-
-    // floatCells.sort((a, b) => {
-    //   let aStyle = window.getComputedStyle(a);
-    //   let bStyle = window.getComputedStyle(b);
-    //   return aStyle.order - bStyle.order;
-    // });
-
-    // flowCells.sort((a, b) => {
-    //   let aStyle = window.getComputedStyle(a);
-    //   let bStyle = window.getComputedStyle(b);
-    //   return aStyle.order - bStyle.order;
-    // });
-
-
-
-
-  
-    // flowCells.forEach(element => {
-    //   let itemStyle = window.getComputedStyle(element);
-    //   let row = false;
-    //   let rowSpan = itemStyle[`${directProp}Span`] ? Number(itemStyle[`${directProp}Span`]) : 1;
-    //   let column = itemStyle[crossProp] && Number(itemStyle[crossProp]) !== position ? Number(itemStyle[crossProp]) : false;
-    //   let columnSpan = itemStyle[`${crossProp}Span`] ? Number(itemStyle[`${crossProp}Span`]) : 1;
-    //   let place = false;
-    //   if(!column) {
-    //     for(let j = 1; j <= maxRows; j++) {
-    //       for(let k = 1; k <= maxCells - columnSpan + 1; k++) {
-    //         place = this.searchLocation(j, rowSpan, k, columnSpan);
-    //         if(place) {
-    //           row = j;
-    //           column = k;
-    //           break;
-    //         }
-    //       }
-    //       if(place) {
-    //         break;
-    //       }
-    //     }
-    //   } else {
-    //     for(let j = 1; j <= maxRows; j++) {
-    //       place = this.searchLocation(j, rowSpan, column, columnSpan);
-    //       if(place) {
-    //         row = j;
-    //         break;
-    //       }
-    //     }
-    //   }
-    //   if(place) {
-    //     element.style[`-ms-grid-${direct}`] = row;
-    //     element.style[`-ms-grid-${cross}`] = column;
-    //     this.save(row, rowSpan, column, columnSpan);
-    //   } else {
-    //     element.style.display = 'none';
-    //   }
-    // });
-
-    // if(params[directSize]) {
-    //   let gridCells = params[`${direct}s`] ? params[`${direct}s`].split(' ') : [];
-    //   let gridCellsLength = gridCells.length;
-    //   for(let i = gridCellsLength; i < this.gridData.length - 1; i++) {
-    //     gridCells.push('1fr');
-    //   }
-    //   grid.style[`-ms-grid-${direct}s`] = gridCells.join(' ');
-    // } else {
-    //   if(params[direct + 's']) {
-    //     grid.style[`-ms-grid-${direct}s`] = params[`${direct}s`];
-    //   }
-    // }
-    // console.log(JSON.stringify(this.gridData));
+    return maxColumns;
   }
 
   capitalizeFirstLetter(string) {
