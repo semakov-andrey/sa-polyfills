@@ -56,7 +56,9 @@ body {
 
 .item:nth-child(7) {
   background: cornflowerblue;
-  grid-column: 4;
+  grid-column: 4 / span 2;
+  -ms-grid-column: 4;
+  -ms-grid-column-span: 2;
   order: 1;
 }
 
@@ -85,5 +87,7 @@ body {
 
 .item:nth-child(19) {
   background: coral;
-  grid-row: 7;
+  grid-row: 7 / span 3;
+  -ms-grid-row: 7;
+  -ms-grid-row-span: 3;
 }

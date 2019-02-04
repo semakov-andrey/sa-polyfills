@@ -60,29 +60,14 @@ export default class AutoPlacement {
       }
     });
 
-    floatCells.sort((a, b) => a.order - b.order);
-    flowCells.sort((a, b) => a.order - b.order);
-
     fixedCells.forEach(element => {  
       this.save(element);
     });
 
+    floatCells.sort((a, b) => a.order - b.order);
     floatCells.forEach(element => {
-      let column;
-      for (let i = 1; i < position - element.columnSpan + 1; i++) {
-        column = this.search({ ...element, column: i });
-        if (column) {
-          column = i;
-          break;
-        }
-      }
-      if (column) {
-        element.node.style[crossProp] = column;
-        this.save({ ...element, column });
-      } else {
-        element.node.style.display = 'none';
-        console.error(`Can't find a cell position`);
-      }
+      const length = position - element.columnSpan + 1;
+      this.searchByDirection(element, length, 'column', crossProp);
     });
 
     this.gridData.forEach(data => {
@@ -90,50 +75,15 @@ export default class AutoPlacement {
         maxColumns = data.length - 1;
       }
     });
-
     maxColumns = this.setColumns(grid, gridColumns, maxColumns, crossTemplateProp);
 
+    flowCells.sort((a, b) => a.order - b.order);
     flowCells.forEach(element => {
-      let place;
-      let row;
-      let column;
       if (element.column !== position) {
-        for (let i = 1; i < position - element.rowSpan + 1; i++) {
-          place = this.search({ ...element, row: i });
-          if (place) {
-            row = i;
-            break;
-          }
-        }
-        if (place) {
-          element.node.style[directProp] = row;
-          this.save({ ...element, row });
-        } else {
-          element.node.style.display = 'none';
-          console.error(`Can't find a cell position`);
-        }
+        this.searchByDirection(element, position - element.rowSpan + 1, 'row', directProp);
       } else {
-        for(let i = 1; i < position - element.rowSpan + 1; i++) {
-          for(let j = 1; j <= maxColumns - element.columnSpan + 1; j++) {
-            place = this.search({ ...element, row: i, column: j });
-            if(place) {
-              row = i;
-              column = j;
-              break;
-            }
-          }
-          if(place) {
-            break;
-          }
-        } 
-        if (place) {
-          element.node.style[directProp] = row;
-          element.node.style[crossProp] = column;
-          this.save({ ...element, row, column });
-        } else {
-          element.node.style.display = 'none';
-          console.error(`Can't find a cell position`);
-        }
+        this.searchByGrid(element, position - element.rowSpan + 1, maxColumns - element.columnSpan + 1,
+          'row', 'column', directProp, crossProp);
       }
     });
 
@@ -182,5 +132,47 @@ export default class AutoPlacement {
       }
     }
     return true;
+  }
+
+  searchByDirection(element, length, property, styleName) {
+    let place = false;
+    for (let i = 1; i < length; i++) {
+      place = this.search({ ...element, [property]: i });
+      if (place) {
+        place = i;
+        break;
+      }
+    }
+    if (place) {
+      element.node.style[styleName] = place;
+      this.save({ ...element, [property]: place });
+    } else {
+      element.node.style.display = 'none';
+      console.error(`Can't find a cell position`);
+    }
+  }
+
+  searchByGrid(element, directLength, crosslength, directProperty, crossProperty, styleNameDirect, styleNameCross) {
+    let place = false;
+    for(let i = 1; i < directLength; i++) {
+      for(let j = 1; j <= crosslength; j++) {
+        place = this.search({ ...element, [directProperty]: i, [crossProperty]: j });
+        if(place) {
+          place = [i, j];
+          break;
+        }
+      }
+      if(place) {
+        break;
+      }
+    } 
+    if (place) {
+      element.node.style[styleNameDirect] = place[0];
+      element.node.style[styleNameCross] = place[1];
+      this.save({ ...element, row: place[0], column: place[1] });
+    } else {
+      element.node.style.display = 'none';
+      console.error(`Can't find a cell position`);
+    }
   }
 }
