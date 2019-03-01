@@ -1,8 +1,7 @@
 node_modules
+build
 .vscode
 *.log
-build
-tmp
 Thumbs.db
 .idea
 .grunt

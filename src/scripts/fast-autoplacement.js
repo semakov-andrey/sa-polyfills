@@ -1,6 +1,4 @@
-'user strict';
-
-export default class AutoPlacement { 
+export default class AutoPlacement {
   constructor({
     selector,
     direction: direct = 'row',
@@ -10,20 +8,20 @@ export default class AutoPlacement {
     if (!selector || typeof selector !== 'string') {
       console.error(`Can't find a grid selector`);
       return;
-    }    
+    }
     const grid = document.querySelector(selector);
     const cells = [...grid.children];
-    if(!cells.length) {
+    if (!cells.length) {
       return;
     }
     this.gridData = [];
     const cross = direct === 'column' ? 'row' : 'column';
     const directProp = `msGrid${this.capitalizeFirstLetter(direct)}`;
-    const crossProp = `msGrid${this.capitalizeFirstLetter(cross)}`; 
+    const crossProp = `msGrid${this.capitalizeFirstLetter(cross)}`;
     const directSpanProp = `${directProp}Span`;
     const crossSpanProp = `${crossProp}Span`;
     const directTemplateProp = `${directProp}s`;
-    const crossTemplateProp = `${crossProp}s`;    
+    const crossTemplateProp = `${crossProp}s`;
     const fixedCells = [];
     const floatCells = [];
     const flowCells = [];
