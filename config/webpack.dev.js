@@ -13,7 +13,7 @@ const configServer           	  = packageJSON.config.devServer;
 const protocol                  = `http${configServer.secure ? 's' : ''}:`;
 
 Object.keys(entries).forEach((key, index) => {
-  entries[key] = [path.resolve(dirs.source, dirs.files.js, entries[key])];
+  entries[key] = [path.resolve(dirs.source, entries[key])];
   if (!index) {
     entries[key].unshift(`webpack-dev-server/client?${protocol}//localhost:${configServer.port}`);
   }
@@ -33,7 +33,10 @@ module.exports = webpackMerge(config, {
           {
             loader: 'file-loader',
             options: {
-              name: `${dirs.files.html}[name].html`
+              name(file) {
+                const name = file.replace(/\\/g, '/').split('/').slice(-3, -2)[0];
+                return `${dirs.files.html}${name}.html`;
+              }
             }
           },
           'extract-loader',

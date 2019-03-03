@@ -59,7 +59,7 @@
       "port": "3000"
     },
     "entries": {
-      "main": "main"
+      "sa-autoplacement": "sa-autoplacement"
     },
     "browsers": [
       "> 0.5%"
@@ -69,8 +69,8 @@
       "development": "tmp",
       "production": "build",
       "files": {
-        "html": "",
-        "css": "styles",
+        "html": "demo",
+        "css": "demo",
         "js": "scripts",
         "fonts": "fonts",
         "images": "images",

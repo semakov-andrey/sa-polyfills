@@ -11,7 +11,7 @@ Object.keys(dirs.files).forEach(folder => {
 
 module.exports = {
   output: {
-    filename: `${dirs.files.js}[name].js`,
+    filename: '[name].js',
     publicPath: '/'
   },
   module: {

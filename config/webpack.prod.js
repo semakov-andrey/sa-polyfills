@@ -15,16 +15,14 @@ const browserList               = packageJSON.config.browsers;
 const entries                   = packageJSON.config.entries;
 
 Object.keys(entries).forEach(key => {
-  entries[key] = [path.resolve(dirs.source, dirs.files.js, entries[key])];
+  entries[key] = [path.resolve(dirs.source, entries[key])];
 });
 
 module.exports = webpackMerge(config, {
   entry: entries,
   mode: 'production',
   output: {
-    path: path.resolve(dirs.production),
-    library: 'fast-autoplacement',
-    libraryTarget: 'umd'
+    path: path.resolve(dirs.production)
   },
   module: {
     rules: [
@@ -34,7 +32,10 @@ module.exports = webpackMerge(config, {
           {
             loader: 'file-loader',
             options: {
-              name: `${dirs.files.html}[name].html`
+              name(file) {
+                const name = file.replace(/\\/g, '/').split('/').slice(-3, -2)[0];
+                return `${dirs.files.html}${name}.html`;
+              }
             }
           },
           'extract-loader',

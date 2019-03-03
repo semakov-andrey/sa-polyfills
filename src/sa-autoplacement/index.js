@@ -1,3 +1,6 @@
+import './demo/index.scss';
+import './demo/index.pug';
+
 export default class AutoPlacement {
   constructor({
     selector,
