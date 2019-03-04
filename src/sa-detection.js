@@ -16,5 +16,8 @@ export default {
   },
   isSafari() {
     return navigator.userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('Chrome') === -1;
+  },
+  isAppleDevice() {
+    return navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i);
   }
 };
