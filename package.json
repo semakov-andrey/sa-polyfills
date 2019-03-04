@@ -60,6 +60,7 @@
     },
     "entries": {
       "test": "test",
+      "sa-detection": "sa-detection",
       "sa-grid-auto-placement": "sa-grid-auto-placement"
     },
     "browsers": [

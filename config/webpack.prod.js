@@ -14,16 +14,19 @@ const dirs                      = packageJSON.config.directories;
 const browserList               = packageJSON.config.browsers;
 const entries                   = packageJSON.config.entries;
 
-Object.keys(entries).filter(key => {
+Object.keys(entries).forEach(key => {
   entries[key] = [path.resolve(dirs.source, entries[key])];
-  return key.indexOf('sa') === 0;
+  if (key.indexOf('sa') !== 0) {
+    delete entries[key];
+  }
 });
 
 module.exports = webpackMerge(config, {
   entry: entries,
   mode: 'production',
   output: {
-    path: path.resolve(dirs.production)
+    path: path.resolve(dirs.production),
+    libraryTarget: 'umd'
   },
   module: {
     rules: [

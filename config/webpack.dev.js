@@ -12,12 +12,14 @@ const entries                   = packageJSON.config.entries;
 const configServer           	  = packageJSON.config.devServer;
 const protocol                  = `http${configServer.secure ? 's' : ''}:`;
 
-Object.keys(entries).filter((key, index) => {
+Object.keys(entries).forEach((key, index) => {
   entries[key] = [path.resolve(dirs.source, entries[key])];
   if (!index) {
     entries[key].unshift(`webpack-dev-server/client?${protocol}//localhost:${configServer.port}`);
   }
-  return key.indexOf('sa') !== 0;
+  if (key.indexOf('sa') === 0) {
+    delete entries[key];
+  }
 });
 
 module.exports = webpackMerge(config, {

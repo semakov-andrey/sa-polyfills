@@ -1,9 +1,10 @@
 import './index.pug';
 import './index.scss';
 import 'babel-polyfill';
-import GridAutoPlacement from '../sa-grid-auto-placement.js';
+import detection from '../sa-detection';
+import GridAutoPlacement from '../sa-grid-auto-placement';
 
-if (/MSIE 10/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)) {
+if (detection.isIE10Plus()) {
   window.addEventListener('DOMContentLoaded', () => {
     new GridAutoPlacement({
       selector: '#grid',
