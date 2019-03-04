@@ -1,8 +1,7 @@
-# AutoPlacement Grid Cells For IE 10, 11.
+# Front-End polyfills. #
+###### Скрипты для поддержки новой функциональности в старых браузерах. ######
 
-### Сборка
-`npm run start` - development  
-`npm run build` - production 
+`sa-detection` - Набор функций для определения браузера
+`sa-grid-auto-placement` - Автоматическая расстановка ячеек грида для IE 10, 11
 
-### Описание
-Автоматическая расстановка ячеек в grid layout для IE 10, 11.
+Папка build содержит es6 модули для подключения в проект.
