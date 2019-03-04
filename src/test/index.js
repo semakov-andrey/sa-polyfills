@@ -1,9 +1,11 @@
+import './index.pug';
+import './index.scss';
 import 'babel-polyfill';
-import AutoPlacement from '../../build/scripts/fast-autoplacement.js';
+import GridAutoPlacement from '../sa-grid-auto-placement.js';
 
-if(/MSIE 10/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)) {
+if (/MSIE 10/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)) {
   window.addEventListener('DOMContentLoaded', () => {
-    new AutoPlacement({
+    new GridAutoPlacement({
       selector: '#grid',
       direction: 'column',
       msGridColumns: '210px 210px 210px',

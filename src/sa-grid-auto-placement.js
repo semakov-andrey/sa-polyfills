@@ -1,7 +1,4 @@
-import './demo/index.scss';
-import './demo/index.pug';
-
-export default class AutoPlacement {
+export default class GridAutoPlacement {
   constructor({
     selector,
     direction: direct = 'row',

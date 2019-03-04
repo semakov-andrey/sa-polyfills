@@ -14,8 +14,9 @@ const dirs                      = packageJSON.config.directories;
 const browserList               = packageJSON.config.browsers;
 const entries                   = packageJSON.config.entries;
 
-Object.keys(entries).forEach(key => {
+Object.keys(entries).filter(key => {
   entries[key] = [path.resolve(dirs.source, entries[key])];
+  return key.indexOf('sa') === 0;
 });
 
 module.exports = webpackMerge(config, {
@@ -32,10 +33,7 @@ module.exports = webpackMerge(config, {
           {
             loader: 'file-loader',
             options: {
-              name(file) {
-                const name = file.replace(/\\/g, '/').split('/').slice(-3, -2)[0];
-                return `${dirs.files.html}${name}.html`;
-              }
+              name: `${dirs.files.html}[name].html`
             }
           },
           'extract-loader',

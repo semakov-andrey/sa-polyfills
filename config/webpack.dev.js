@@ -12,18 +12,20 @@ const entries                   = packageJSON.config.entries;
 const configServer           	  = packageJSON.config.devServer;
 const protocol                  = `http${configServer.secure ? 's' : ''}:`;
 
-Object.keys(entries).forEach((key, index) => {
+Object.keys(entries).filter((key, index) => {
   entries[key] = [path.resolve(dirs.source, entries[key])];
   if (!index) {
     entries[key].unshift(`webpack-dev-server/client?${protocol}//localhost:${configServer.port}`);
   }
+  return key.indexOf('sa') !== 0;
 });
 
 module.exports = webpackMerge(config, {
   entry: entries,
   mode: 'development',
   output: {
-    path: path.resolve(dirs.development)
+    path: path.resolve(dirs.development),
+    filename: `${dirs.files.js}[name].js`
   },
   module: {
     rules: [
@@ -33,10 +35,7 @@ module.exports = webpackMerge(config, {
           {
             loader: 'file-loader',
             options: {
-              name(file) {
-                const name = file.replace(/\\/g, '/').split('/').slice(-3, -2)[0];
-                return `${dirs.files.html}${name}.html`;
-              }
+              name: `${dirs.files.html}[name].html`
             }
           },
           'extract-loader',
