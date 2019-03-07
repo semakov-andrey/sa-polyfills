@@ -6,7 +6,7 @@ export default class GridAutoPlacement {
     ...params
   }) {
     if (!selector || typeof selector !== 'string') {
-      console.error(`Can't find a grid selector`);
+      console.error("Can't find a grid selector");
       return;
     }
     const grid = document.querySelector(selector);
@@ -58,7 +58,7 @@ export default class GridAutoPlacement {
       }
     });
 
-    fixedCells.forEach(element => {  
+    fixedCells.forEach(element => {
       this.save(element);
     });
 
@@ -89,26 +89,27 @@ export default class GridAutoPlacement {
   }
 
   setColumns(grid, columns, maxColumns, styleName) {
-    let template = [];
+    let maximum = maxColumns;
+    const template = [];
     if (columns) {
       template.push(...columns.trim().split(' '));
     }
-    let length = template.length;
-    if (maxColumns > length) {
-      let i = maxColumns - length;
-      while(i--) {
+    const length = template.length;
+    if (maximum > length) {
+      let i = maximum - length;
+      while (i--) {
         template.push('1fr');
       }
       grid.style[styleName] = template.join(' ');
     } else {
-      maxColumns = length;
+      maximum = length;
     }
-    return maxColumns;
+    return maximum;
   }
 
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  } 
+  }
 
   save({ row, rowSpan, column, columnSpan }) {
     for (let i = 0; i < rowSpan; i++) {
@@ -122,9 +123,9 @@ export default class GridAutoPlacement {
   }
 
   search({ row, rowSpan, column, columnSpan }) {
-    for(let i = 0; i < rowSpan; i++) {
-      for(let j = 0; j < columnSpan; j++) {
-        if(this.gridData[row + i] && this.gridData[row + i][column + j]) {
+    for (let i = 0; i < rowSpan; i++) {
+      for (let j = 0; j < columnSpan; j++) {
+        if (this.gridData[row + i] && this.gridData[row + i][column + j]) {
           return false;
         }
       }
@@ -146,31 +147,31 @@ export default class GridAutoPlacement {
       this.save({ ...element, [property]: place });
     } else {
       element.node.style.display = 'none';
-      console.error(`Can't find a cell position`);
+      console.error("Can't find a cell position");
     }
   }
 
   searchByGrid(element, directLength, crosslength, directProperty, crossProperty, styleNameDirect, styleNameCross) {
     let place = false;
-    for(let i = 1; i < directLength; i++) {
-      for(let j = 1; j <= crosslength; j++) {
+    for (let i = 1; i < directLength; i++) {
+      for (let j = 1; j <= crosslength; j++) {
         place = this.search({ ...element, [directProperty]: i, [crossProperty]: j });
-        if(place) {
+        if (place) {
           place = [i, j];
           break;
         }
       }
-      if(place) {
+      if (place) {
         break;
       }
-    } 
+    }
     if (place) {
       element.node.style[styleNameDirect] = place[0];
       element.node.style[styleNameCross] = place[1];
       this.save({ ...element, row: place[0], column: place[1] });
     } else {
       element.node.style.display = 'none';
-      console.error(`Can't find a cell position`);
+      console.error("Can't find a cell position");
     }
   }
 }
