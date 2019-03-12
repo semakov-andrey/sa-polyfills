@@ -15,7 +15,7 @@
     "no-await-in-loop": 1,
     "no-compare-neg-zero": 1,
     "no-cond-assign": [1, "except-parens"],
-    "no-console": [1, { "allow": ["error"] }],
+    "no-console": [1, { "allow": ["info", "error"] }],
     "no-constant-condition": [1, { "checkLoops": true }],
     "no-control-regex": 1,
     "no-debugger": 1,
