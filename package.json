@@ -2,7 +2,19 @@
   "name": "sa-polyfills",
   "version": "1.1.2",
   "description": "Front-End polyfills",
-  "author": "Semakov Andrey",
+  "keywords": [
+    "js",
+    "es6",
+    "polyfill",
+    "umd",
+    "library"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:semakov_andrey/sa-polyfills.git"
+  },
+  "author": "Semakov Andrey <semakov.andrey.web@yandex.ru>",
+  "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.26.0"
   },
