@@ -8,6 +8,3 @@ Thumbs.db
 bash.exe.stackdump
 .editorconfig
 .yo-rc.json
-.stylelintrc
-build.js
-start.js
