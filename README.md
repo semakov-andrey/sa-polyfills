@@ -3,6 +3,10 @@ Some scripts for supporting new opportunities in old browsers.
 It based on browser detection.  
 `Build` folder contains es6 modules for importing into the project.
 
+### Installation
+`npm install sa-polyfills --save`
+
+### Table of contents
 1. [sa-detection](#sa-detection)
 2. [sa-closest](#sa-closest)
 3. [sa-grid-auto-placement](#sa-grid-auto-placement)
