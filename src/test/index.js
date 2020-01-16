@@ -1,5 +1,5 @@
 import './index.pug';
-import './index.scss';
+import './index.css';
 import 'babel-polyfill';
 import detection          from '../sa-detection';
 import GridAutoPlacement  from '../sa-grid-auto-placement';

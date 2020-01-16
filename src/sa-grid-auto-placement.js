@@ -10,10 +10,8 @@ export default class GridAutoPlacement {
       return;
     }
     const grid = document.querySelector(selector);
-    const cells = [...grid.children];
-    if (!cells.length) {
-      return;
-    }
+    const cells = [ ...grid.children ];
+    if (!cells.length) return;
     this.gridData = [];
     const cross = direct === 'column' ? 'row' : 'column';
     const directProp = `msGrid${this.capitalizeFirstLetter(direct)}`;
@@ -80,8 +78,7 @@ export default class GridAutoPlacement {
       if (element.column !== position) {
         this.searchByDirection(element, position - element.rowSpan + 1, 'row', directProp);
       } else {
-        this.searchByGrid(element, position - element.rowSpan + 1, maxColumns - element.columnSpan + 1,
-          'row', 'column', directProp, crossProp);
+        this.searchByGrid(element, position - element.rowSpan + 1, maxColumns - element.columnSpan + 1, 'row', 'column', directProp, crossProp);
       }
     });
 
@@ -107,9 +104,7 @@ export default class GridAutoPlacement {
     return maximum;
   }
 
-  capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1);
 
   save({ row, rowSpan, column, columnSpan }) {
     for (let i = 0; i < rowSpan; i++) {
@@ -125,9 +120,7 @@ export default class GridAutoPlacement {
   search({ row, rowSpan, column, columnSpan }) {
     for (let i = 0; i < rowSpan; i++) {
       for (let j = 0; j < columnSpan; j++) {
-        if (this.gridData[row + i] && this.gridData[row + i][column + j]) {
-          return false;
-        }
+        if (this.gridData[row + i] && this.gridData[row + i][column + j]) return false;
       }
     }
     return true;
@@ -157,13 +150,11 @@ export default class GridAutoPlacement {
       for (let j = 1; j <= crosslength; j++) {
         place = this.search({ ...element, [directProperty]: i, [crossProperty]: j });
         if (place) {
-          place = [i, j];
+          place = [ i, j ];
           break;
         }
       }
-      if (place) {
-        break;
-      }
+      if (place) break;
     }
     if (place) {
       element.node.style[styleNameDirect] = place[0];

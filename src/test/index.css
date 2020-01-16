@@ -25,7 +25,7 @@ body {
   font-size: 30px;
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
   .grid {
     padding: 5px;
   }
@@ -35,7 +35,7 @@ body {
     -ms-grid-row: 999;
     -ms-grid-column: 999;
   }
-} 
+}
 
 .item:nth-child(5) {
   background: lime;

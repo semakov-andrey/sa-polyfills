@@ -1,12 +1,17 @@
+const { userAgent, platform, vendor } = navigator;
+
 export default {
   isIE10() {
-    return /MSIE 10/i.test(navigator.userAgent);
+    return /MSIE 10/i.test(userAgent);
   },
   isIE11() {
-    return /rv:11.0/i.test(navigator.userAgent);
+    return /rv:11.0/i.test(userAgent);
   },
   isEdge() {
-    return /Edge\/\d./i.test(navigator.userAgent);
+    return /Edge\/\d./i.test(userAgent);
+  },
+  isEdgeChromium() {
+    return /Edg\//.test(userAgent);
   },
   isIE10Plus() {
     return this.isIE10() || this.isIE11();
@@ -15,9 +20,18 @@ export default {
     return this.isIE10() || this.isIE11() || this.isEdge();
   },
   isSafari() {
-    return navigator.userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('Chrome') === -1;
+    return /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
   },
   isAppleDevice() {
-    return navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i);
+    return platform.match(/(Mac|iPhone|iPod|iPad)/i);
+  },
+  isFirefox() {
+    return /Firefox/.test(userAgent);
+  },
+  isChrome() {
+    return /Chrome/.test(userAgent) && /Google Inc/.test(vendor);
+  },
+  isOpera() {
+    return /OPR\//.test(userAgent);
   }
 };

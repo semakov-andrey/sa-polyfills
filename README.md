@@ -1,10 +1,20 @@
 # Front-End polyfills. #
-###### Скрипты для поддержки новой функциональности в старых браузерах. ######
-###### Они основаны на определении браузера и его версии (НЕ на определении возможностей). ######
+###### Some scripts for supporting new opportunities in old browsers. ######
+###### It based on browser detection. ######
 
-`sa-detection` - Набор функций для определения браузера через user-agent  
+`sa-detection` - Functions for browser detection
 
-`IE 10+` - `sa-closest` - Метод Element.closest()   
-`IE 10+` - `sa-grid-auto-placement` - Автоматическая расстановка ячеек грида  
+`IE 10+` - `sa-closest` - Element.closest() polyfill  
 
-Папка build содержит es6 модули для подключения в проект.
+### Usage ###
+```
+import detection from 'sa-detection';
+import Closest from 'sa-closest';
+
+if (detection.isIE10Plus()) new Closest();
+```
+
+
+`IE 10+` - `sa-grid-auto-placement` - CSS grid cell auto placement 
+
+`Build` folder contains es6 modules for importing into the project.

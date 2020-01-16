@@ -7,13 +7,12 @@ const path                      = require('path');
 const autoprefixer              = require('autoprefixer');
 const MiniCssExtractPlugin      = require('mini-css-extract-plugin');
 const dirs                      = packageJSON.config.directories;
-const browserList               = packageJSON.config.browsers;
 const entries                   = packageJSON.config.entries;
 const configServer           	  = packageJSON.config.devServer;
 const protocol                  = `http${configServer.secure ? 's' : ''}:`;
 
 Object.keys(entries).forEach((key, index) => {
-  entries[key] = [path.resolve(dirs.source, entries[key])];
+  entries[key] = [ path.resolve(dirs.source, entries[key]) ];
   if (!index) {
     entries[key].unshift(`webpack-dev-server/client?${protocol}//localhost:${configServer.port}`);
   }
@@ -56,7 +55,7 @@ module.exports = webpackMerge(config, {
         ]
       },
       {
-        test: /\.scss$/,
+        test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -70,17 +69,8 @@ module.exports = webpackMerge(config, {
             options: {
               sourceMap: true,
               plugins: () => [
-                autoprefixer({
-                  browsers: browserList
-                })
+                autoprefixer()
               ]
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              outputStyle: 'expanded',
-              sourceMap: true
             }
           }
         ]

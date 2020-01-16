@@ -11,11 +11,10 @@ const cssnano                   = require('cssnano');
 const UglifyJsPlugin            = require('uglifyjs-webpack-plugin');
 const SpriteLoaderPlugin        = require('svg-sprite-loader/plugin');
 const dirs                      = packageJSON.config.directories;
-const browserList               = packageJSON.config.browsers;
 const entries                   = packageJSON.config.entries;
 
 Object.keys(entries).forEach(key => {
-  entries[key] = [path.resolve(dirs.source, entries[key])];
+  entries[key] = [ path.resolve(dirs.source, entries[key]) ];
   if (key.indexOf('sa') !== 0) {
     delete entries[key];
   }
@@ -59,15 +58,14 @@ module.exports = webpackMerge(config, {
         ]
       },
       {
-        test: /\.scss$/,
+        test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader'
+          'css-loader'
         ]
       },
       {
-        test: /content[\\\/].*\.(jpg|png|gif|webp|svg)$/,
+        test: /content[\\/].*\.(jpg|png|gif|webp|svg)$/,
         use: [
           {
             loader: 'file-loader',
@@ -90,9 +88,9 @@ module.exports = webpackMerge(config, {
               },
               svgo: {
                 plugins: [
-                  {removeViewBox: false},
-                  {convertColors: {shorthex: true}},
-                  {removeEmptyAttrs: false}
+                  { removeViewBox: false },
+                  { convertColors: { shorthex: true } },
+                  { removeEmptyAttrs: false }
                 ]
               }
             }
@@ -100,7 +98,7 @@ module.exports = webpackMerge(config, {
         ]
       },
       {
-        test: /svg[\\\/].*\.svg$/,
+        test: /svg[\\/].*\.svg$/,
         use: [
           {
             loader: 'svg-sprite-loader',
@@ -114,9 +112,9 @@ module.exports = webpackMerge(config, {
             loader: 'svgo-loader',
             options: {
               plugins: [
-                {removeViewBox: false},
-                {convertColors: {shorthex: true}},
-                {removeEmptyAttrs: false}
+                { removeViewBox: false },
+                { convertColors: { shorthex: true } },
+                { removeEmptyAttrs: false }
               ]
             }
           }
@@ -141,18 +139,16 @@ module.exports = webpackMerge(config, {
         test: /\.css$/,
         log: false,
         plugins: [
-          autoprefixer({
-            browsers: browserList
-          }),
+          autoprefixer(),
           cssnano({
-            preset: ['default', {
+            preset: [ 'default', {
               discardComments: {
                 removeAll: true
               },
               minifyFontValues: {
                 removeQuotes: false
               }
-            }]
+            } ]
           })
         ]
       })

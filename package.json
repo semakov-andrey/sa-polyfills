@@ -20,8 +20,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
-    "autoprefixer": "^9.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "autoprefixer": "^9.7.4",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
     "cssnano": "^4.1.8",
@@ -32,19 +34,12 @@
     "html-loader": "^0.5.5",
     "image-webpack-loader": "^4.6.0",
     "mini-css-extract-plugin": "^0.5.0",
-    "node-sass": "^4.11.0",
     "postcss-assets-webpack-plugin": "^3.0.0",
     "postcss-loader": "^3.0.0",
     "pug": "^2.0.3",
     "pug-html-loader": "^1.1.5",
-    "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "stylelint": "^9.9.0",
-    "stylelint-declaration-block-no-ignored-properties": "^1.1.0",
-    "stylelint-scss": "^3.5.0",
-    "stylelint-selector-no-empty": "^1.0.7",
-    "stylelint-suitcss": "^3.0.0",
-    "stylelint-z-index-value-constraint": "^1.0.0",
     "svg-fill-loader": "0.0.8",
     "svg-sprite-loader": "^4.1.3",
     "svgo-loader": "^2.2.0",
@@ -57,8 +52,10 @@
     "start": "node start.js",
     "build": "node build.js",
     "module": "node node_modules/sa-template-2/module.js",
-    "lint-css": "stylelint src/**/*.scss -f verbose --fix",
-    "lint-js": "eslint src/**/*.js --fix"
+    "lint-js": "eslint src/**/*.js",
+    "lint-js-fix": "eslint src/**/*.js --fix",
+    "lint-css": "stylelint src/**/*.css -f verbose",
+    "lint-css-fix": "stylelint src/**/*.css -f verbose --fix"
   },
   "config": {
     "devServer": {
@@ -72,9 +69,6 @@
       "sa-detection": "sa-detection",
       "sa-grid-auto-placement": "sa-grid-auto-placement"
     },
-    "browsers": [
-      "> 0.5%"
-    ],
     "directories": {
       "source": "src",
       "development": "tmp",
@@ -89,5 +83,8 @@
         "other": ""
       }
     }
-  }
+  },
+  "browserslist": [
+    "> 0.5%"
+  ]
 }
