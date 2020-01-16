@@ -1,20 +1,27 @@
-# Front-End polyfills. #
-###### Some scripts for supporting new opportunities in old browsers. ######
-###### It based on browser detection. ######
+## Front-End polyfills
+Some scripts for supporting new opportunities in old browsers.
+It based on browser detection.  
+`Build` folder contains es6 modules for importing into the project.
 
-`sa-detection` - Functions for browser detection
+1. [sa-detection](#sa-detection)
+2. [sa-closest](#sa-closest)
+3. [sa-grid-auto-placement](#sa-grid-auto-placement)
 
-`IE 10+` - `sa-closest` - Element.closest() polyfill  
+### sa-detection
+Functions for browser detection
 
-### Usage ###
+#### List of functions
+
+### sa-closest
+`IE 10+` - Element.closest() polyfill
+
+#### Usage
 ```
 import detection from 'sa-detection';
 import Closest from 'sa-closest';
 
 if (detection.isIE10Plus()) new Closest();
 ```
+### sa-grid-auto-placement
+`IE 10+` - CSS grid cell auto placement 
 
-
-`IE 10+` - `sa-grid-auto-placement` - CSS grid cell auto placement 
-
-`Build` folder contains es6 modules for importing into the project.
