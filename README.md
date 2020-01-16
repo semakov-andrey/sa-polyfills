@@ -7,21 +7,36 @@ It based on browser detection.
 2. [sa-closest](#sa-closest)
 3. [sa-grid-auto-placement](#sa-grid-auto-placement)
 
-### sa-detection
+## sa-detection
 Functions for browser detection
 
-#### List of functions
+### List of functions
 
-### sa-closest
+|                      |
+| -------------------- |
+| isIE10               |
+| isIE11               |
+| isEdge               |
+| isEdgeChromium       |
+| isIE10Plus           |
+| isIEOrEdge           |
+| isSafari             |
+| isAppleDevice        |
+| isFirefox            |
+| isChrome             |
+| isOpera              |
+
+
+## sa-closest
 `IE 10+` - Element.closest() polyfill
 
-#### Usage
+### Usage
 ```
 import detection from 'sa-detection';
 import Closest from 'sa-closest';
 
 if (detection.isIE10Plus()) new Closest();
 ```
-### sa-grid-auto-placement
+## sa-grid-auto-placement
 `IE 10+` - CSS grid cell auto placement 
 
