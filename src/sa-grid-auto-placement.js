@@ -1,8 +1,10 @@
+const DEFAULT_POSITION = 999;
+
 export default class GridAutoPlacement {
   constructor({
     selector,
     direction: direct = 'row',
-    position = 999,
+    position = DEFAULT_POSITION,
     ...params
   }) {
     if (!selector || typeof selector !== 'string') {
@@ -11,7 +13,10 @@ export default class GridAutoPlacement {
     }
     const grid = document.querySelector(selector);
     const cells = [ ...grid.children ];
-    if (!cells.length) return;
+    if (!cells.length) {
+      console.error("Can't find cells in grid");
+      return;
+    }
     this.gridData = [];
     const cross = direct === 'column' ? 'row' : 'column';
     const directProp = `msGrid${this.capitalizeFirstLetter(direct)}`;

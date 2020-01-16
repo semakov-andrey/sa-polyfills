@@ -7,13 +7,11 @@ import Closest            from '../sa-closest';
 
 if (detection.isIE10Plus()) {
   new Closest();
-  window.addEventListener('DOMContentLoaded', () => {
-    new GridAutoPlacement({
-      selector: '#grid',
-      direction: 'column',
-      msGridColumns: '210px 210px 210px',
-      msGridRows: '150px 150px 150px'
-    });
+  new GridAutoPlacement({
+    selector: '#grid',
+    direction: 'column',
+    msGridColumns: '210px 210px 210px',
+    msGridRows: '150px 150px 150px'
   });
 }
 
