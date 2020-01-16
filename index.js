@@ -1,9 +1,5 @@
-const packageJSON = require('./package.json');
-
-const { config: { directories: { production: dir } } } = packageJSON;
-
 module.exports = {
-  detection: require(`./${dir}/sa-detection.js`),
-  Closest: require(`./${dir}/sa-сlosest.js`),
-  GridAutoPlacement: require(`./${dir}/sa-grid-auto-placement.js`)
+  detection: require('./build/sa-detection.js').default,
+  Closest: require('./build/sa-closest.js').default,
+  GridAutoPlacement: require('./build/sa-grid-auto-placement.js').default
 };
